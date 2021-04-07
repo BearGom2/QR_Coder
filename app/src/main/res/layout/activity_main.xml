@@ -6,39 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView_main"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_texture_100"
-        tools:ignore="VectorDrawableCompat" />
-
-    <EditText
-        android:id="@+id/editText_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView_main"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="4dp"
-        android:gravity="center_horizontal"
-        android:hint="Enter text here"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView_main" />
+    <Button
+        android:id="@+id/readerBtn"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="스캔하기"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/QRcreateBtn"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Generate"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editText_main" />
+        android:id="@+id/QRcreateBtn"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="QR코드 만들기"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/readerBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

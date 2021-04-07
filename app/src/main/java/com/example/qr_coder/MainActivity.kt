@@ -1,58 +1,46 @@
 package com.example.qr_coder
 
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
-import com.google.zxing.WriterException
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.zxing.integration.android.IntentIntegrator
 
-private const val TAG = "MainActivity"
+
+private lateinit var readerBtn: Button
+private lateinit var QRcreateBtn: Button
 
 class MainActivity : AppCompatActivity() {
-
-
-
-    private lateinit var button_main: Button
-    private lateinit var editText_main: EditText
-    private lateinit var imageView_main: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button_main =findViewById(R.id.button_main)
-        editText_main =findViewById(R.id.editText_main)
-        imageView_main =findViewById(R.id.imageView_main)
+        readerBtn = findViewById(R.id.readerBtn)
+        QRcreateBtn = findViewById(R.id.QRcreateBtn)
 
-        button_main.setOnClickListener {
-            val text = editText_main.text.toString()
-            if (text.isNotBlank()) {
-                val bitmap = generateQRCode(text)
-                imageView_main.setImageBitmap(bitmap)
+        readerBtn.setOnClickListener {
+            IntentIntegrator(this).initiateScan()
+        }
+        QRcreateBtn.setOnClickListener {
+            val intent = Intent(this, GenerateActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(this, "취소되었습니다.", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "값: " + result.contents, Toast.LENGTH_LONG).show()
             }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
-    private fun generateQRCode(text: String): Bitmap {
-        val width = 500
-        val height = 500
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val codeWriter = MultiFormatWriter()
-        try {
-            val bitMatrix = codeWriter.encode(text, BarcodeFormat.QR_CODE, width, height)
-            for (x in 0 until width) {
-                for (y in 0 until height) {
-                    bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
-                }
-            }
-        } catch (e: WriterException) { Log.d(TAG, "generateQRCode: ${e.message}") }
-        return bitmap
-    }
 }
